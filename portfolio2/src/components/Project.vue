@@ -23,7 +23,7 @@ const projects = [
     project_img: 'irritantepagina.png',
     project_link: 'https://rvspijker.nl/irritantepagina/',
     github_link: 'https://github.com/RvSpijker/Irritante-pagina/',
-    project_desc: 'Dit project bestaat uit drie belangrijke aspecten....',
+    project_desc: 'Dit project bestaat uit drie belangrijke aspecten. Dit project draait namelijk om het zo goed mogelijk nabouwen van een bestaande OnePager en van deze nagebouwde heb OnePager ik een echt irritante OnePage-site gemaakt. Dit heb ik gedaan in een duo.',
   },
   {
     id: 2,
@@ -31,7 +31,7 @@ const projects = [
     project_img: 'rps.png',
     project_link: 'https://rvspijker.nl/rps/',
     github_link: 'https://github.com/RvSpijker/SteenPapierSchaar',
-    project_desc: 'In dit project heb ik mijn vaardigheden in HTML5, ...',
+    project_desc: 'In dit project heb ik mijn vaardigheden in HTML5, CSS3 en JavaScript toegepast tot een groter geheel. ik heb een webgame ontwikkelt in dit project.',
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ const projects = [
     project_img: 'gaminggoods.png',
     project_link: 'https://shop.rvspijker.nl/',
     github_link: 'https://github.com/RvSpijker/webshop-gaminggoods',
-    project_desc: 'In dit project heb ik me in gericht op het leren v...',
+    project_desc: 'In dit project heb ik me in gericht op het leren van de programmeertaal PHP en het gebruiken ervan om een eenvoudige webshop te maken.',
   },
   {
     id: 4,
@@ -47,7 +47,7 @@ const projects = [
     project_img: 'blog.png',
     project_link: 'https://rvspijker.nl/blog/',
     github_link: 'https://github.com/RvSpijker/Blog',
-    project_desc: 'In dit project heb ik geleerd een eenvoudige webba...',
+    project_desc: 'In dit project heb ik geleerd een eenvoudige webbased applicatie te ontwikkelen. Hierdoor heb ik ook geleerd hoe je vanilla PHP toepast in een web applicatie.',
   },
   {
     id: 5,
@@ -55,7 +55,7 @@ const projects = [
     project_img: 'todo.png',
     project_link: 'https://rvspijker.nl/todo/',
     github_link: 'https://github.com/RvSpijker/todo-api',
-    project_desc: 'In dit project heb ik geleerd een eenvoudige api t...',
+    project_desc: 'In dit project heb ik geleerd een eenvoudige api te ontwikkelen.',
   },
   {
     id: 6,
