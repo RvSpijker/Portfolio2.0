@@ -70,7 +70,7 @@ onMounted(() => {
     const hue = Math.floor(Math.random() * 360);
     // Use HSL to generate three monochromatic shades
     const primary = `hsl(${hue}, 100%, 60%)`;
-    const secondary = `hsl(${hue}, 100%, 20%)`;
+    const secondary = `hsl(${hue}, 100%, 10%)`;
     const accent = `hsl(${hue}, 100%, 80%)`;
     return { primary, secondary, accent };
   }

@@ -1,6 +1,7 @@
 <template>
   <main>
     <h1 class="centertext">Over Mij</h1>
+    
     <div class="flex">
       <div
         class="card"
@@ -11,7 +12,7 @@
         @mouseleave="() => resetTilt(idx)"
         :style="cardStyles[idx]"
       >
-        <component :is="card.svg" />
+        <div v-html="card.svg.template" class="center"></div>
         <h2 class="cardh1">{{ card.title }}</h2>
         <p class="cardp" v-html="card.content"></p>
       </div>
@@ -94,9 +95,14 @@ function resetTilt(idx: number) {
   transition: transform 0.3s cubic-bezier(.03,.98,.52,.99), box-shadow 0.3s;
   will-change: transform;
   box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-  /* ...existing card styles... */
 }
 .card:hover {
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

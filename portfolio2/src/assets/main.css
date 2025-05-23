@@ -4,14 +4,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 
 :root {
   --text: #fcfbfe;
   --background: #020104;
   --primary-button: #8e43fe;
-  --secondary-button: #200024;
+  --secondary-button: #8e43fe20;
   --accent: #eb43fe;
 }
 
@@ -140,7 +140,7 @@ main {
 .card {
   margin-top: 24px;
   margin-bottom: 48px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--secondary-button);
   border-radius: 7px;
   height: 350px;
   padding: 24px;
@@ -186,7 +186,7 @@ main {
   flex-direction: column;
   padding: 30px;
   color: var(--text);
-  border: solid var(--primary-button);
+  /* border: solid var(--primary-button); */
   margin-top: 48px;
   margin-bottom: 48px;
 }
@@ -200,8 +200,12 @@ main {
   background-color: var(--background);
   padding: 8px;
   border-radius: 7px;
-  border: solid var(--primary-button);
   margin-bottom: 18px;
+  border: none;
+}
+
+.contactinput:focus {
+  border: solid var(--primary-button);
 }
 
 .message {
@@ -242,7 +246,7 @@ main {
   margin: auto;
   padding: 30px;
   color: var(--text);
-  border: solid var(--primary-button);
+  /* border: solid var(--primary-button); */
   margin-top: 48px;
   margin-bottom: 48px;
 }
@@ -320,7 +324,7 @@ main {
 }
 
 .card2 {
-  background-color: var(--primary-button);
+  background-color: var(--secondary-button);
   border-radius: 7px;
   height: auto;
   width: 100%;
@@ -337,7 +341,7 @@ main {
 
 .card2h1 {
   text-align: center;
-  margin-top: 24px;
+  margin-top: 12px;
   width: 100%;
 }
 
