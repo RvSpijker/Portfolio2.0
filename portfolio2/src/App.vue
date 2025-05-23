@@ -102,22 +102,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-#cursor-light {
-  position: fixed;
-  pointer-events: none;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(128,0,255,0.4) 0%, rgba(128,0,255,0.1) 100%, transparent 100%);
-  filter: blur(40px);
-  z-index: 1;
-  left: 0;
-  top: 0;
-  transform: translate(-50%, -50%);
-  transition: opacity 0.2s;
-  opacity: 0.7;
-}
-
 body {
   background: #000;
 }
