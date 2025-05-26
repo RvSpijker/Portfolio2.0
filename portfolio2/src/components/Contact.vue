@@ -4,7 +4,12 @@
       <form class="contactform" @submit.prevent="sendEmail">
         <h1 class="formtitle">Leave me a message</h1>
         <label for="message">Message</label>
-        <textarea class="message contactinput" id="message" v-model="message" type="text"></textarea>
+        <textarea
+          class="message contactinput"
+          id="message"
+          v-model="message"
+          type="text"
+        ></textarea>
         <button class="contactsubmit" type="submit"><h2>Submit</h2></button>
       </form>
       <div class="contactinfo">
