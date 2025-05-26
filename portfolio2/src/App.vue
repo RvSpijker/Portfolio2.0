@@ -75,14 +75,45 @@ watch(
 
 // Cursor light effect
 onMounted(() => {
-  const light = document.getElementById('cursor-light');
-  const moveLight = (e: MouseEvent) => {
-    if (light) {
-      light.style.left = `${e.clientX}px`;
-      light.style.top = `${e.clientY}px`;
+  const cursor = document.getElementById('cursor');
+  const trail = document.getElementById('cursor-trail');
+  let trailPositions: { x: number; y: number }[] = [];
+  const trailLength = 5;
+
+  const moveCursor = (e: MouseEvent) => {
+    if (cursor) {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    }
+
+    // Update trail positions
+    trailPositions.unshift({ x: e.clientX, y: e.clientY });
+    if (trailPositions.length > trailLength) {
+      trailPositions.pop();
+    }
+
+    // Update trail position with delay
+    if (trail && trailPositions.length > 0) {
+      const delayedPos = trailPositions[trailPositions.length - 1];
+      trail.style.left = `${delayedPos.x}px`;
+      trail.style.top = `${delayedPos.y}px`;
     }
   };
-  window.addEventListener('mousemove', moveLight);
+
+  // Add click effect
+  const handleClick = () => {
+    if (cursor) {
+      cursor.style.width = '15px';
+      cursor.style.height = '15px';
+      setTimeout(() => {
+        cursor.style.width = '20px';
+        cursor.style.height = '20px';
+      }, 100);
+    }
+  };
+
+  window.addEventListener('mousemove', moveCursor);
+  window.addEventListener('click', handleClick);
 
   // Spacebar random monochromatic color change
   function randomMonochromeHex() {
@@ -106,7 +137,8 @@ onMounted(() => {
 
   // Clean up
   onUnmounted(() => {
-    window.removeEventListener('mousemove', moveLight);
+    window.removeEventListener('mousemove', moveCursor);
+    window.removeEventListener('click', handleClick);
     window.removeEventListener('keydown', handleSpace);
   });
 });
@@ -118,7 +150,8 @@ onMounted(() => {
     :is="currentView === 'home' ? Home : currentView === 'contact' ? Contact : currentView === 'projecten' ? Projects : Project"
     v-bind="currentView === 'project' ? { id: currentProjectId } : {}"
   />
-  <div id="cursor-light"></div>
+  <div id="cursor"></div>
+  <div id="cursor-trail"></div>
 </template>
 
 <style scoped>
