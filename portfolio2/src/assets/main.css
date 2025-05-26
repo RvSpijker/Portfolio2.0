@@ -36,14 +36,13 @@
   display: none;
 }
 
-#cursor-trail {
+.cursor-trail {
   position: fixed;
   pointer-events: none;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   background: var(--primary-button);
-  opacity: 0.3;
   transform: translate(-50%, -50%);
   z-index: 9998;
   transition: transform 0.1s;

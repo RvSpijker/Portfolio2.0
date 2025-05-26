@@ -78,7 +78,17 @@ onMounted(() => {
   const cursor = document.getElementById('cursor');
   const trail = document.getElementById('cursor-trail');
   let trailPositions: { x: number; y: number }[] = [];
-  const trailLength = 5;
+  const trailLength = 15;
+
+  // Create multiple trail elements
+  const trails: HTMLElement[] = [];
+  for (let i = 0; i < trailLength; i++) {
+    const trailElement = document.createElement('div');
+    trailElement.id = `cursor-trail-${i}`;
+    trailElement.className = 'cursor-trail';
+    document.body.appendChild(trailElement);
+    trails.push(trailElement);
+  }
 
   const moveCursor = (e: MouseEvent) => {
     if (cursor) {
@@ -92,12 +102,15 @@ onMounted(() => {
       trailPositions.pop();
     }
 
-    // Update trail position with delay
-    if (trail && trailPositions.length > 0) {
-      const delayedPos = trailPositions[trailPositions.length - 1];
-      trail.style.left = `${delayedPos.x}px`;
-      trail.style.top = `${delayedPos.y}px`;
-    }
+    // Update all trail elements with decreasing opacity
+    trails.forEach((trail, index) => {
+      if (trailPositions[index]) {
+        const pos = trailPositions[index];
+        trail.style.left = `${pos.x}px`;
+        trail.style.top = `${pos.y}px`;
+        trail.style.opacity = `${0.3 - (index * 0.02)}`; // Decreasing opacity
+      }
+    });
   };
 
   // Add click effect
@@ -140,6 +153,8 @@ onMounted(() => {
     window.removeEventListener('mousemove', moveCursor);
     window.removeEventListener('click', handleClick);
     window.removeEventListener('keydown', handleSpace);
+    // Remove all trail elements
+    trails.forEach(trail => trail.remove());
   });
 });
 </script>
@@ -151,7 +166,6 @@ onMounted(() => {
     v-bind="currentView === 'project' ? { id: currentProjectId } : {}"
   />
   <div id="cursor"></div>
-  <div id="cursor-trail"></div>
 </template>
 
 <style scoped>
