@@ -1,14 +1,10 @@
 <template>
   <main>
     <div class="contactpagegrid">
-      <form class="contactform" action="src/formhandlers/mail.php" method="POST">
+      <form class="contactform" @submit.prevent="sendEmail">
         <h1 class="formtitle">Contact Me</h1>
-        <label for="name">Name</label>
-        <input class="contactinput" id="name" type="text" name="name" />
-        <label for="email">Email</label>
-        <input class="contactinput" id="email" type="email" name="email" />
         <label for="message">Message</label>
-        <textarea class="message contactinput" id="message" type="text" name="msg"></textarea>
+        <textarea class="message contactinput" id="message" v-model="message" type="text"></textarea>
         <button class="contactsubmit" type="submit"><h2>Submit</h2></button>
       </form>
       <div class="contactinfo">
@@ -54,3 +50,14 @@
     </div>
   </main>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const message = ref('')
+
+function sendEmail() {
+  const mailtoLink = `mailto:robinvanspijker@gmail.com?body=${encodeURIComponent(message.value)}`
+  window.location.href = mailtoLink
+}
+</script>
