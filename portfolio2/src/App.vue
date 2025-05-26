@@ -11,6 +11,26 @@ const currentView = ref<'home' | 'contact' | 'projecten' | 'project'>('home')
 const currentProjectId = ref<string | null>(null)
 const router = useRouter()
 
+// Update document title based on current view
+watch(currentView, (newView) => {
+  let title = ''
+  switch (newView) {
+    case 'home':
+      title = 'Home'
+      break
+    case 'contact':
+      title = 'Contact'
+      break
+    case 'projecten':
+      title = 'Projecten'
+      break
+    case 'project':
+      title = 'Project'
+      break
+  }
+  document.title = `${title} | RvSpijker`
+})
+
 function handleNav(view: string, projectId?: string) {
   if (view === 'projecten') {
     currentView.value = 'projecten';
