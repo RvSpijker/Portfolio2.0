@@ -11,7 +11,16 @@
       >
     </div>
     <h4>Preview website:</h4>
-    <img class="projectimg" :src="imgUrl" :alt="project?.project_name" />
+    <img
+      v-if="project?.preview_type === 'image'"
+      class="projectimg"
+      :src="imgUrl"
+      :alt="project?.project_name"
+    />
+    <video v-else-if="project?.preview_type === 'video'" class="projectimg" controls>
+      <source :src="imgUrl" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
   </main>
 </template>
 

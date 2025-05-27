@@ -3,6 +3,7 @@ export const projects = [
     id: 1,
     project_name: 'irritante pagina',
     project_img: 'irritantepagina.png',
+    preview_type: 'image',
     project_link: 'https://rvspijker.nl/irritantepagina/',
     github_link: 'https://github.com/RvSpijker/Irritante-pagina/',
     project_desc:
@@ -12,6 +13,7 @@ export const projects = [
     id: 2,
     project_name: 'Steen Papier Schaar',
     project_img: 'rps.png',
+    preview_type: 'image',
     project_link: 'https://rvspijker.nl/rps/',
     github_link: 'https://github.com/RvSpijker/SteenPapierSchaar',
     project_desc:
@@ -21,6 +23,7 @@ export const projects = [
     id: 3,
     project_name: 'Webshop',
     project_img: 'gaminggoods.png',
+    preview_type: 'image',
     project_link: 'https://shop.rvspijker.nl/',
     github_link: 'https://github.com/RvSpijker/webshop-gaminggoods',
     project_desc:
@@ -30,6 +33,7 @@ export const projects = [
     id: 4,
     project_name: 'Blog',
     project_img: 'blog.png',
+    preview_type: 'image',
     project_link: 'https://rvspijker.nl/blog/',
     github_link: 'https://github.com/RvSpijker/Blog',
     project_desc:
@@ -39,6 +43,7 @@ export const projects = [
     id: 5,
     project_name: 'Todo',
     project_img: 'todo.png',
+    preview_type: 'image',
     project_link: 'https://rvspijker.nl/todo/',
     github_link: 'https://github.com/RvSpijker/todo-api',
     project_desc: 'In dit project heb ik geleerd een eenvoudige api te ontwikkelen.',
@@ -47,6 +52,7 @@ export const projects = [
     id: 6,
     project_name: 'Portfolio',
     project_img: 'portfolio.png',
+    preview_type: 'image',
     project_link: 'https://rvspijker.nl/old',
     github_link: 'https://github.com/RvSpijker/Portfolio',
     project_desc: 'Dit was mijn eerste portfolio, ik heb deze gemaakt in 2023.',
@@ -55,6 +61,7 @@ export const projects = [
     id: 7,
     project_name: 'New Tab',
     project_img: 'newtab.png',
+    preview_type: 'image',
     project_link: 'https://rvspijker.nl/newtab/',
     github_link: 'https://github.com/RvSpijker/homescreen',
     project_desc: '[Beschrijving komt eraan]',
@@ -62,7 +69,8 @@ export const projects = [
   {
     id: 8,
     project_name: 'Eat this playlist (Spotify)',
-    project_img: 'eatthisplaylist.png',
+    project_img: 'Eat-this-playlist-preview.mp4',
+    preview_type: 'video',
     project_link: 'https://rvspijker.nl/eatthisplaylist/',
     github_link: 'https://github.com/RvSpijker/Eat-this-playlist-spotify',
     project_desc: 'Ik heb dit project gemaakt in React en heb gebruik gemaakt van de Spotify API.',
@@ -71,6 +79,7 @@ export const projects = [
     id: 9,
     project_name: 'Eat this playlist (Youtube)',
     project_img: 'eatthisplaylistyt.png',
+    preview_type: 'image',
     project_link: 'https://rvspijker.nl/eatthisplaylistyt/',
     github_link: 'https://github.com/RvSpijker/Eat-this-playlist-yt',
     project_desc: 'Ik heb dit project gemaakt in React en heb gebruik gemaakt van de Youtube API.',
