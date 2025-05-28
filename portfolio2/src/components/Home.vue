@@ -18,13 +18,9 @@
       </div>
     </div>
 
-    <h2 class="cardh1">GitHub Contributions</h2>
+    <h1 class="cardh1">GitHub Contributions</h1>
     <div class="github-section">
-      <img
-        src="https://ghchart.rshah.org/8e43fe/rvspijker"
-        alt="GitHub Contribution Chart"
-        class="github-chart card"
-      />
+      <GitHubContributionGraph username="rvspijker" :token="githubToken" class="card-stat" />
       <div class="github-stats">
         <div class="card-stat">
           <h3>Followers</h3>
@@ -44,6 +40,9 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import GitHubContributionGraph from './GitHubContributionGraph.vue'
+
+const githubToken = import.meta.env.VITE_GITHUB_TOKEN
 
 function calculateAge(date: string): number {
   const formattedDate = date.split('/')
