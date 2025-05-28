@@ -221,6 +221,15 @@ main {
   width: 33%;
 }
 
+.card-stat {
+  margin-top: -12px;
+  margin-bottom: 24px;
+  background: var(--secondary-button);
+  border-radius: 7px;
+  padding: 24px;
+  width: 33%;
+}
+
 .icon {
   font-size: 150px;
   color: var(--primary-button);

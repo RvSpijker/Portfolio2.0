@@ -17,6 +17,29 @@
         <p class="cardp" v-html="card.content"></p>
       </div>
     </div>
+
+    <h2 class="cardh1">GitHub Contributions</h2>
+    <div class="github-section">
+      <img
+        src="https://ghchart.rshah.org/8e43fe/rvspijker"
+        alt="GitHub Contribution Chart"
+        class="github-chart card"
+      />
+      <div class="github-stats">
+        <div class="card-stat">
+          <h3>Followers</h3>
+          <p class="stat-number">12</p>
+        </div>
+        <div class="card-stat">
+          <h3>Repositories</h3>
+          <p class="stat-number">15</p>
+        </div>
+        <div class="card-stat">
+          <h3>Following</h3>
+          <p class="stat-number">8</p>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 <script setup lang="ts">
@@ -97,6 +120,9 @@ function resetTilt(idx: number) {
     box-shadow 0.3s;
   will-change: transform;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 12px 0px;
 }
 .card:hover {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
@@ -106,5 +132,30 @@ function resetTilt(idx: number) {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.github-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.github-chart {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.github-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 1.5rem;
+}
+
+.stat-number {
+  color: var(--primary-button);
+  font-size: 2rem;
+  font-weight: bold;
 }
 </style>
