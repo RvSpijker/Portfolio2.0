@@ -23,26 +23,31 @@
       <GitHubContributionGraph username="rvspijker" :token="githubToken" class="card-stat" />
       <div class="github-stats">
         <div class="card-stat">
-          <h3>Followers</h3>
-          <p class="stat-number">12</p>
+          <h3>Repositories</h3>
+          <p class="stat-number">{{ githubStats.public_repos }}</p>
         </div>
         <div class="card-stat">
-          <h3>Repositories</h3>
-          <p class="stat-number">15</p>
+          <h3>Followers</h3>
+          <p class="stat-number">{{ githubStats.followers }}</p>
         </div>
         <div class="card-stat">
           <h3>Following</h3>
-          <p class="stat-number">8</p>
+          <p class="stat-number">{{ githubStats.following }}</p>
         </div>
       </div>
     </div>
   </main>
 </template>
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import GitHubContributionGraph from './GitHubContributionGraph.vue'
 
 const githubToken = import.meta.env.VITE_GITHUB_TOKEN
+const githubStats = reactive({
+  followers: 0,
+  following: 0,
+  public_repos: 0,
+})
 
 function calculateAge(date: string): number {
   const formattedDate = date.split('/')
@@ -111,6 +116,30 @@ function resetTilt(idx: number) {
     zIndex: 1,
   }
 }
+
+async function fetchGitHubStats() {
+  try {
+    const response = await fetch('https://api.github.com/users/rvspijker', {
+      headers: {
+        Authorization: `Bearer ${githubToken}`,
+        Accept: 'application/vnd.github.v3+json',
+      },
+    })
+    if (!response.ok) throw new Error('Failed to fetch GitHub stats')
+    const data = await response.json()
+    Object.assign(githubStats, {
+      followers: data.followers,
+      following: data.following,
+      public_repos: data.public_repos,
+    })
+  } catch (error) {
+    console.error('Error fetching GitHub stats:', error)
+  }
+}
+
+onMounted(() => {
+  fetchGitHubStats()
+})
 </script>
 <style scoped>
 .card {
@@ -137,12 +166,6 @@ function resetTilt(idx: number) {
   width: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.github-chart {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
 }
 
 .github-stats {

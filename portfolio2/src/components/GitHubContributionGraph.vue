@@ -27,8 +27,7 @@ const cellSize = 12
 const cellGap = 2
 
 async function fetchGitHubData() {
-  const query = `
-    query {
+  const query = `    query {
       user(login: "${props.username}") {
         contributionsCollection {
           contributionCalendar {
