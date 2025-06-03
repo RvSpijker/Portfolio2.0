@@ -197,7 +197,10 @@ onMounted(() => {
 }
 
 .stat-number {
-  color: var(--primary-button);
+  background: linear-gradient(1deg, #8e43fe, #eb43fe);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   font-size: 2rem;
   font-weight: bold;
 }

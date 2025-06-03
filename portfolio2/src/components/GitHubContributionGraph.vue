@@ -1,7 +1,14 @@
 <template>
   <div class="github-contribution-graph">
     <!-- <h2>GitHub Contributions for {{ username }}</h2> -->
-    <svg ref="graph" class="contribution-graph"></svg>
+    <svg ref="graph" class="contribution-graph">
+      <defs>
+        <linearGradient id="contributionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color: #8e43fe" />
+          <stop offset="100%" style="stop-color: #eb43fe" />
+        </linearGradient>
+      </defs>
+    </svg>
   </div>
 </template>
 
@@ -17,10 +24,10 @@ const graph = ref<SVGElement | null>(null)
 
 const colors = {
   level0: '#ffffff30',
-  level1: 'var(--primary-button)',
-  level2: 'var(--primary-button)',
-  level3: 'var(--primary-button)',
-  level4: 'var(--primary-button)',
+  level1: 'url(#contributionGradient)',
+  level2: 'url(#contributionGradient)',
+  level3: 'url(#contributionGradient)',
+  level4: 'url(#contributionGradient)',
 }
 
 const cellSize = 12
@@ -61,7 +68,12 @@ async function fetchGitHubData() {
 function drawGraph(weeks: any[]) {
   if (!graph.value) return
 
+  // Remove all rect elements but keep the defs
+  const defs = graph.value.querySelector('defs')
   graph.value.innerHTML = ''
+  if (defs) {
+    graph.value.appendChild(defs)
+  }
 
   const totalWidth = weeks.length * (cellSize + cellGap)
   const totalHeight = 7 * (cellSize + cellGap)
