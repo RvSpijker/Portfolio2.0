@@ -20,7 +20,7 @@
   .card {
     margin-top: 24px;
     margin-bottom: 48px;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--secondary-button);
     border-radius: 7px;
     height: auto;
     padding: 24px;
@@ -220,5 +220,19 @@
 
   .github-stats h3 {
     font-size: 1rem;
+  }
+
+  main {
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+
+  .card-stat {
+    width: 80%;
+    padding: 16px;
+    font-size: 12px;
+    margin: 12px auto;
+    background: var(--secondary-button);
+    border-radius: 7px;
   }
 }
