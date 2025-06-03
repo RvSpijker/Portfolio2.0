@@ -471,6 +471,7 @@ main {
 
 .card2img {
   width: 100%;
+  background: var(--secondary-button);
 }
 
 /* titlebox */

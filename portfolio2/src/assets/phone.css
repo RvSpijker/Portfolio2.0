@@ -96,7 +96,7 @@
   }
 
   .card2 {
-    background-color: var(--primary-button);
+    background-color: var(--secondary-button);
     border-radius: 7px;
     height: auto;
     width: 100%;
