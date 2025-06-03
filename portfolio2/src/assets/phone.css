@@ -201,5 +201,24 @@
     height: 100%;
     margin-left: 10px;
   }
-  /*  */
+
+  /* Project buttons */
+  .btndiv {
+    width: 80%;
+    gap: 4%;
+  }
+
+  .projectbutton {
+    width: 150px !important;
+    height: 40px !important;
+  }
+
+  .projectbutton h1 {
+    font-size: 16px;
+    line-height: 40px;
+  }
+
+  .github-stats h3 {
+    font-size: 1rem;
+  }
 }

@@ -44,3 +44,9 @@ function myFunction() {
 </script>
 
 <!-- ...existing style section... -->
+
+<style scoped>
+main {
+  padding-bottom: 100px;
+}
+</style>
