@@ -6,6 +6,7 @@ import Home from './components/Home.vue'
 import Contact from './components/Contact.vue'
 import Projects from './components/Projects.vue'
 import Project from './components/Project.vue'
+import SpaceBackground from './components/SpaceBackground.vue'
 
 const currentView = ref<'home' | 'contact' | 'projecten' | 'project'>('home')
 const currentProjectId = ref<string | null>(null)
@@ -160,6 +161,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <SpaceBackground />
   <Header @navigate="handleNav" />
   <component
     :is="
