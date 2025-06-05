@@ -159,14 +159,12 @@ onUnmounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -999;
+  z-index: -1;
   background: #000;
-  pointer-events: none;
 }
 
 canvas {
   width: 100%;
   height: 100%;
-  display: block;
 }
 </style>
