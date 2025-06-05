@@ -128,7 +128,7 @@ a {
   -moz-background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
-  animation: gradient 8s ease infinite;
+  animation: gradient 4s ease infinite;
   text-shadow: 0 0 30px rgba(142, 67, 254, 0.3);
 }
 
@@ -292,7 +292,6 @@ main {
   width: 100%;
   text-align: center;
   margin-top: 24px;
-  margin-bottom: 24px;
 }
 
 .href {
@@ -335,7 +334,7 @@ main {
 
 .message {
   height: 200px;
-  resize: vertical;
+  resize: none;
 }
 
 .contactsubmit {

@@ -184,16 +184,16 @@ onMounted(() => {
 }
 
 .github-section {
-  width: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  gap: 12px;
 }
 
 .github-stats {
   display: flex;
   justify-content: space-between;
   gap: 24px;
-  margin-top: 1.5rem;
 }
 
 .stat-number {
