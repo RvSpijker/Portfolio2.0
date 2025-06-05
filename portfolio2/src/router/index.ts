@@ -11,22 +11,26 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: Home,
+      meta: { transition: 'fade' },
     },
     {
       path: '/contact',
       name: 'contact',
       component: Contact,
+      meta: { transition: 'fade' },
     },
     {
       path: '/projects',
       name: 'projects',
       component: Projects,
+      meta: { transition: 'fade' },
     },
     {
       path: '/project/:id',
       name: 'project',
       component: Project,
       props: true,
+      meta: { transition: 'fade' },
     },
   ],
 })

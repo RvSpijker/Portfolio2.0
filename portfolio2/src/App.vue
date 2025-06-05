@@ -11,9 +11,17 @@ import SpaceBackground from './components/SpaceBackground.vue'
 const currentView = ref<'home' | 'contact' | 'projecten' | 'project'>('home')
 const currentProjectId = ref<string | null>(null)
 const router = useRouter()
+const navigationDirection = ref<'left' | 'right'>('right')
+
+// Define the order of pages in the navigation
+const pageOrder = {
+  home: 0,
+  projecten: 1,
+  contact: 2,
+}
 
 // Update document title based on current view
-watch(currentView, (newView) => {
+watch(currentView, (newView, oldView) => {
   let title = ''
   switch (newView) {
     case 'home':
@@ -30,6 +38,13 @@ watch(currentView, (newView) => {
       break
   }
   document.title = `${title} | RvSpijker`
+
+  // Determine navigation direction based on page order
+  if (oldView && newView !== 'project' && oldView !== 'project') {
+    const oldOrder = pageOrder[oldView as keyof typeof pageOrder] ?? 0
+    const newOrder = pageOrder[newView as keyof typeof pageOrder] ?? 0
+    navigationDirection.value = newOrder > oldOrder ? 'right' : 'left'
+  }
 })
 
 function handleNav(view: string, projectId?: string) {
@@ -163,23 +178,77 @@ onMounted(() => {
 <template>
   <SpaceBackground />
   <Header @navigate="handleNav" />
-  <component
-    :is="
-      currentView === 'home'
-        ? Home
-        : currentView === 'contact'
-          ? Contact
-          : currentView === 'projecten'
-            ? Projects
-            : Project
-    "
-    v-bind="currentView === 'project' ? { id: currentProjectId } : {}"
-  />
+  <router-view v-slot="{ Component, route }">
+    <transition
+      :name="
+        currentView === 'project'
+          ? 'fade'
+          : navigationDirection === 'right'
+            ? 'slide-right'
+            : 'slide-left'
+      "
+      mode="out-in"
+    >
+      <component
+        :is="Component"
+        v-bind="currentView === 'project' ? { id: currentProjectId } : {}"
+      />
+    </transition>
+  </router-view>
   <div id="cursor"></div>
 </template>
 
 <style scoped>
 body {
   background: #000;
+}
+
+/* Page transition animations */
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all 0.3s ease;
+  position: absolute;
+  width: 100%;
+}
+
+.slide-right-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.slide-right-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.slide-left-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* Fade transition for project pages */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+  position: absolute;
+  width: 100%;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Ensure the router view maintains its position during transitions */
+:deep(.router-view-wrapper) {
+  position: relative;
+  min-height: 100vh;
 }
 </style>
