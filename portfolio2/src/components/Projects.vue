@@ -42,9 +42,9 @@ const sortDirection = ref('desc') // 'asc' or 'desc'
 const projectsList = computed(() => {
   return [...projects].sort((a, b) => {
     if (sortDirection.value === 'asc') {
-      return a.project_name.localeCompare(b.project_name)
+      return a.id - b.id
     } else {
-      return b.project_name.localeCompare(a.project_name)
+      return b.id - a.id
     }
   })
 })

@@ -84,4 +84,13 @@ export const projects = [
     github_link: 'https://github.com/RvSpijker/Eat-this-playlist-yt',
     project_desc: 'Ik heb dit project gemaakt in React en heb gebruik gemaakt van de Youtube API.',
   },
+  {
+    id: 10,
+    project_name: 'Portfolio 2',
+    project_img: 'portfolio2.png',
+    preview_type: 'image',
+    project_link: 'https://rvspijker.nl/',
+    github_link: 'https://github.com/RvSpijker/Portfolio2.0',
+    project_desc: '[insert description here]',
+  },
 ]
