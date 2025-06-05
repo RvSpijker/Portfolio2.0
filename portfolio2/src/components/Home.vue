@@ -22,17 +22,25 @@
     <div class="github-section">
       <GitHubContributionGraph username="rvspijker" :token="githubToken" class="card-stat" />
       <div class="github-stats">
-        <div class="card-stat">
-          <h3>Repositories</h3>
-          <p class="stat-number">{{ githubStats.public_repos }}</p>
-        </div>
-        <div class="card-stat">
-          <h3>Followers</h3>
-          <p class="stat-number">{{ githubStats.followers }}</p>
-        </div>
-        <div class="card-stat">
-          <h3>Following</h3>
-          <p class="stat-number">{{ githubStats.following }}</p>
+        <div
+          class="card-stat"
+          v-for="(stat, idx) in ['repos', 'followers', 'following']"
+          :key="stat"
+          ref="statRefs"
+          @mousemove="(e) => handleTilt(e, idx + 4)"
+          @mouseleave="() => resetTilt(idx + 4)"
+          :style="cardStyles[idx + 4]"
+        >
+          <h3>{{ stat.charAt(0).toUpperCase() + stat.slice(1) }}</h3>
+          <p class="stat-number">
+            {{
+              stat === 'repos'
+                ? githubStats.public_repos
+                : stat === 'followers'
+                  ? githubStats.followers
+                  : githubStats.following
+            }}
+          </p>
         </div>
       </div>
     </div>
@@ -112,27 +120,31 @@ const cards = [
   },
 ]
 
-const cardRefs = ref([])
-const cardStyles = reactive([{}, {}, {}])
+const cardRefs = ref<HTMLElement[]>([])
+const statRefs = ref<HTMLElement[]>([])
+const cardStyles = reactive([{}, {}, {}, {}, {}, {}])
 
 function handleTilt(e: MouseEvent, idx: number) {
-  const card = cardRefs.value[idx] as HTMLElement
+  const card = idx < 3 ? cardRefs.value[idx] : statRefs.value[idx - 4]
+  if (!card) return
+
   const rect = card.getBoundingClientRect()
   const x = e.clientX - rect.left
   const y = e.clientY - rect.top
   const centerX = rect.width / 2
   const centerY = rect.height / 2
-  const rotateX = ((y - centerY) / centerY) * 10 // max 10deg
-  const rotateY = ((x - centerX) / centerX) * 10
+  const rotateX = ((y - centerY) / centerY) * 15
+  const rotateY = ((x - centerX) / centerX) * 15
   cardStyles[idx] = {
-    transform: `perspective(600px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`,
+    transform: `perspective(1000px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`,
     transition: 'transform 0.1s',
     zIndex: 2,
   }
 }
+
 function resetTilt(idx: number) {
   cardStyles[idx] = {
-    transform: 'perspective(600px) rotateX(0deg) rotateY(0deg)',
+    transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)',
     transition: 'transform 0.3s',
     zIndex: 1,
   }
@@ -203,5 +215,19 @@ onMounted(() => {
   color: transparent;
   font-size: 2rem;
   font-weight: bold;
+}
+
+.card-stat {
+  transition:
+    transform 0.3s cubic-bezier(0.03, 0.98, 0.52, 0.99),
+    box-shadow 0.3s;
+  will-change: transform;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.card-stat:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
 }
 </style>

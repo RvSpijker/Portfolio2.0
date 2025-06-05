@@ -121,6 +121,17 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.3s cubic-bezier(0.03, 0.98, 0.52, 0.99),
+    box-shadow 0.3s;
+  will-change: transform;
+}
+
+.github-contribution-graph:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
 }
 
 .contribution-graph {
