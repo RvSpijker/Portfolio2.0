@@ -101,13 +101,14 @@ function draw() {
 
   // Draw connections
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
+  const maxConnectionDistance = window.innerWidth <= 768 ? 50 : 100 // Shorter connections on mobile
   dots.forEach((dot1, i) => {
     dots.slice(i + 1).forEach((dot2) => {
       const dx = dot1.x - dot2.x
       const dy = dot1.y - dot2.y
       const distance = Math.sqrt(dx * dx + dy * dy)
 
-      if (distance < 100) {
+      if (distance < maxConnectionDistance) {
         ctx.beginPath()
         ctx.moveTo(dot1.x, dot1.y)
         ctx.lineTo(dot2.x, dot2.y)
