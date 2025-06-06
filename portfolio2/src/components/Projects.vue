@@ -59,6 +59,9 @@ function myFunction() {
 </script>
 
 <style scoped>
+main {
+  padding-bottom: 250px;
+}
 
 .card2 {
   margin-bottom: -24px;
