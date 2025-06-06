@@ -11,7 +11,7 @@
         />
       </div>
     </div>
-    <TransitionGroup name="list" tag="div" class="flex2">
+    <TransitionGroup name="list" tag="div" class="flex2 skibidi">
       <router-link
         v-for="project in projectsList"
         :key="project.id"
@@ -59,8 +59,9 @@ function myFunction() {
 </script>
 
 <style scoped>
-main {
-  padding-bottom: 100px;
+
+.card2 {
+  margin-bottom: -24px;
 }
 
 .titlebox {
