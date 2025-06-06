@@ -21,7 +21,7 @@
     <h1 class="cardh1">GitHub Contributions</h1>
     <div class="github-section">
       <GitHubContributionGraph username="rvspijker" :token="githubToken" class="card-stat" />
-      <div class="github-stats">
+      <div class="github-stats" ref="statsContainer">
         <div
           class="card-stat"
           v-for="(stat, idx) in ['repos', 'followers', 'following']"
@@ -35,10 +35,10 @@
           <p class="stat-number">
             {{
               stat === 'repos'
-                ? githubStats.public_repos
+                ? animatedStats.public_repos
                 : stat === 'followers'
-                  ? githubStats.followers
-                  : githubStats.following
+                  ? animatedStats.followers
+                  : animatedStats.following
             }}
           </p>
         </div>
@@ -47,7 +47,7 @@
   </main>
 </template>
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import GitHubContributionGraph from './GitHubContributionGraph.vue'
 
 const githubToken = import.meta.env.VITE_GITHUB_TOKEN
@@ -56,6 +56,15 @@ const githubStats = reactive({
   following: 0,
   public_repos: 0,
 })
+
+const animatedStats = reactive({
+  followers: 0,
+  following: 0,
+  public_repos: 0,
+})
+
+const statsContainer = ref<HTMLElement | null>(null)
+let observer: IntersectionObserver | null = null
 
 function calculateAge(date: string): number {
   const formattedDate = date.split('/')
@@ -170,8 +179,63 @@ async function fetchGitHubStats() {
   }
 }
 
+function animateValue(
+  start: number,
+  end: number,
+  duration: number,
+  property: keyof typeof animatedStats,
+) {
+  const startTime = performance.now()
+
+  function update(currentTime: number) {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / duration, 1)
+
+    // Easing function for smooth animation
+    const easeOutQuart = 1 - Math.pow(1 - progress, 4)
+    animatedStats[property] = Math.floor(start + (end - start) * easeOutQuart)
+
+    if (progress < 1) {
+      requestAnimationFrame(update)
+    }
+  }
+
+  requestAnimationFrame(update)
+}
+
+function startAnimation() {
+  const duration = 2000 // 2 seconds
+  animateValue(0, githubStats.followers, duration, 'followers')
+  animateValue(0, githubStats.following, duration, 'following')
+  animateValue(0, githubStats.public_repos, duration, 'public_repos')
+}
+
 onMounted(() => {
   fetchGitHubStats()
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          startAnimation()
+          observer?.disconnect()
+        }
+      })
+    },
+    {
+      threshold: 0.5,
+    },
+  )
+
+  if (statsContainer.value) {
+    observer.observe(statsContainer.value)
+  }
+})
+
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect()
+  }
 })
 </script>
 <style scoped>

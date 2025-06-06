@@ -22,7 +22,7 @@ interface Dot {
 }
 
 const dots: Dot[] = []
-const numDots = 100
+const numDots = 50
 const maxSpeed = 2
 
 function initCanvas() {
