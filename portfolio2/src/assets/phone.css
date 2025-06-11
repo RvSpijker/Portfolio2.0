@@ -49,12 +49,14 @@
     gap: 8px;
     font-size: 10px;
     margin-left: 10px;
-    flex-wrap: wrap;
   }
 
   .nav-logo {
-    margin-right: auto;
-    margin-bottom: 8px;
+    margin-right: 240px;
+  }
+
+  .nav-links {
+    margin-right: 24px;
   }
 
   .navlink {

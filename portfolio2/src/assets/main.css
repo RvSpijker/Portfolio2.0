@@ -175,10 +175,25 @@ nav {
 
 .nav-flex {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
   padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.nav-logo {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  margin-right: 48px;
+}
+
+.nav-links {
+  display: flex;
   gap: 16px;
+  transition: transform 0.1s ease;
+  margin-right: 48px;
 }
 
 .logo {
