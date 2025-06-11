@@ -24,21 +24,27 @@
       <div class="github-stats" ref="statsContainer">
         <div
           class="card-stat"
-          v-for="(stat, idx) in ['repos', 'followers', 'following']"
+          v-for="(stat, idx) in ['repos', 'followers', 'following', 'latest_push']"
           :key="stat"
           ref="statRefs"
           @mousemove="(e) => handleTilt(e, idx + 4)"
           @mouseleave="() => resetTilt(idx + 4)"
           :style="cardStyles[idx + 4]"
         >
-          <h3>{{ stat.charAt(0).toUpperCase() + stat.slice(1) }}</h3>
+          <h3>
+            {{
+              stat === 'latest_push' ? 'Latest Push' : stat.charAt(0).toUpperCase() + stat.slice(1)
+            }}
+          </h3>
           <p class="stat-number">
             {{
               stat === 'repos'
                 ? animatedStats.public_repos
                 : stat === 'followers'
                   ? animatedStats.followers
-                  : animatedStats.following
+                  : stat === 'following'
+                    ? animatedStats.following
+                    : animatedStats.latest_push
             }}
           </p>
         </div>
@@ -50,17 +56,21 @@
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import GitHubContributionGraph from './GitHubContributionGraph.vue'
 
+type StatProperty = 'followers' | 'following' | 'public_repos' | 'latest_push'
+
 const githubToken = import.meta.env.VITE_GITHUB_TOKEN
 const githubStats = reactive({
   followers: 0,
   following: 0,
   public_repos: 0,
+  latest_push: '',
 })
 
 const animatedStats = reactive({
   followers: 0,
   following: 0,
   public_repos: 0,
+  latest_push: '',
 })
 
 const statsContainer = ref<HTMLElement | null>(null)
@@ -174,17 +184,47 @@ async function fetchGitHubStats() {
       following: data.following,
       public_repos: data.public_repos,
     })
+
+    // Fetch repositories to get latest push time
+    const reposResponse = await fetch('https://api.github.com/users/rvspijker/repos', {
+      headers: {
+        Authorization: `Bearer ${githubToken}`,
+        Accept: 'application/vnd.github.v3+json',
+      },
+    })
+    if (!reposResponse.ok) throw new Error('Failed to fetch repositories')
+    const repos = await reposResponse.json()
+
+    // Find the most recent push across all repositories
+    const latestPush = repos.reduce((latest: string | null, repo: any) => {
+      if (!repo.pushed_at) return latest
+      if (!latest) return repo.pushed_at
+      return new Date(repo.pushed_at) > new Date(latest) ? repo.pushed_at : latest
+    }, null)
+
+    if (latestPush) {
+      const pushTime = new Date(latestPush)
+      const now = new Date()
+      const diffInMinutes = Math.floor((now.getTime() - pushTime.getTime()) / (1000 * 60))
+
+      if (diffInMinutes < 60) {
+        githubStats.latest_push = `${diffInMinutes}m ago`
+      } else if (diffInMinutes < 24 * 60) {
+        const diffInHours = Math.floor(diffInMinutes / 60)
+        githubStats.latest_push = `${diffInHours}h ago`
+      } else {
+        const diffInDays = Math.floor(diffInMinutes / (24 * 60))
+        githubStats.latest_push = `${diffInDays}d ago`
+      }
+    } else {
+      githubStats.latest_push = 'No recent pushes'
+    }
   } catch (error) {
     console.error('Error fetching GitHub stats:', error)
   }
 }
 
-function animateValue(
-  start: number,
-  end: number,
-  duration: number,
-  property: keyof typeof animatedStats,
-) {
+function animateValue(start: number, end: number, duration: number, property: StatProperty) {
   const startTime = performance.now()
 
   function update(currentTime: number) {
@@ -193,7 +233,9 @@ function animateValue(
 
     // Easing function for smooth animation
     const easeOutQuart = 1 - Math.pow(1 - progress, 4)
-    animatedStats[property] = Math.floor(start + (end - start) * easeOutQuart)
+    if (property !== 'latest_push') {
+      animatedStats[property] = Math.floor(start + (end - start) * easeOutQuart)
+    }
 
     if (progress < 1) {
       requestAnimationFrame(update)
@@ -208,6 +250,7 @@ function startAnimation() {
   animateValue(0, githubStats.followers, duration, 'followers')
   animateValue(0, githubStats.following, duration, 'following')
   animateValue(0, githubStats.public_repos, duration, 'public_repos')
+  animatedStats.latest_push = githubStats.latest_push
 }
 
 onMounted(() => {
@@ -270,6 +313,14 @@ onUnmounted(() => {
   display: flex;
   justify-content: space-between;
   gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .github-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
 }
 
 .stat-number {
