@@ -1,7 +1,17 @@
 <template>
+  <header>
+    <a
+      href="#"
+      @click.prevent="$emit('navigate', 'home')"
+      class="header-logo"
+      :style="headerLogoStyle"
+    >
+      <h1 class="headertext"><strong>RVSPIJKER</strong></h1>
+    </a>
+  </header>
   <nav>
     <div class="nav-flex">
-      <a href="#" @click.prevent="$emit('navigate', 'home')" class="logo">
+      <a href="#" @click.prevent="$emit('navigate', 'home')" class="nav-logo" :style="navLogoStyle">
         <h1 class="headertext"><strong>RVSPIJKER</strong></h1>
       </a>
       <a href="#" @click.prevent="$emit('navigate', 'home')"><h2 class="navlink">Home</h2></a>
@@ -16,3 +26,45 @@
     </div>
   </nav>
 </template>
+
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const headerLogoStyle = ref({})
+const navLogoStyle = ref({})
+
+onMounted(() => {
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY
+    const headerHeight = 350 // Height of the header
+    const transitionStart = 0
+    const transitionEnd = headerHeight
+
+    // Calculate progress (0 to 1)
+    const progress = Math.min(
+      Math.max((scrollPosition - transitionStart) / (transitionEnd - transitionStart), 0),
+      1,
+    )
+
+    // Update header logo styles
+    headerLogoStyle.value = {
+      opacity: 1 - progress,
+      transform: `translateY(${-20 * progress}px) scale(${1 - progress * 0.5})`,
+    }
+
+    // Update nav logo styles
+    navLogoStyle.value = {
+      opacity: progress,
+      transform: `translateY(${-20 + 20 * progress}px) scale(${0.5 + progress * 0.5})`,
+    }
+  }
+
+  window.addEventListener('scroll', handleScroll)
+  // Initial call to set initial state
+  handleScroll()
+
+  onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll)
+  })
+})
+</script>

@@ -1,11 +1,16 @@
 @media only screen and (max-width: 950px) {
-  .headertext {
-    font-size: 24px;
-    line-height: normal;
+  .header-logo .headertext {
+    font-size: 64px;
+    line-height: 200px;
   }
 
   header {
     height: 200px;
+  }
+
+  .nav-logo .headertext {
+    font-size: 24px;
+    line-height: normal;
   }
 
   .flex {
@@ -47,7 +52,7 @@
     flex-wrap: wrap;
   }
 
-  .logo {
+  .nav-logo {
     margin-right: auto;
     margin-bottom: 8px;
   }
