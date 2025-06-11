@@ -1,7 +1,7 @@
 @media only screen and (max-width: 950px) {
   .headertext {
-    font-size: 64px;
-    line-height: 200px;
+    font-size: 24px;
+    line-height: normal;
   }
 
   header {
@@ -39,11 +39,17 @@
 
   .nav-flex {
     display: flex;
-    justify-content: left;
-    padding: 4px;
-    gap: 4px;
+    justify-content: flex-start;
+    padding: 12px;
+    gap: 8px;
     font-size: 10px;
     margin-left: 10px;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    margin-right: auto;
+    margin-bottom: 8px;
   }
 
   .navlink {
