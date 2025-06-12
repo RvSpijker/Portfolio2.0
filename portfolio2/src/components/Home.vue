@@ -22,32 +22,40 @@
     <div class="github-section">
       <GitHubContributionGraph username="rvspijker" :token="githubToken" class="card-stat" />
       <div class="github-stats" ref="statsContainer">
-        <div
-          class="card-stat"
-          v-for="(stat, idx) in ['repos', 'followers', 'following', 'latest_push']"
-          :key="stat"
-          ref="statRefs"
-          @mousemove="(e) => handleTilt(e, idx + 4)"
-          @mouseleave="() => resetTilt(idx + 4)"
-          :style="cardStyles[idx + 4]"
-        >
-          <h3>
-            {{
-              stat === 'latest_push' ? 'Latest Push' : stat.charAt(0).toUpperCase() + stat.slice(1)
-            }}
-          </h3>
-          <p class="stat-number">
-            {{
-              stat === 'repos'
-                ? animatedStats.public_repos
-                : stat === 'followers'
-                  ? animatedStats.followers
-                  : stat === 'following'
-                    ? animatedStats.following
-                    : animatedStats.latest_push
-            }}
-          </p>
+        <div v-if="isLoading" class="loading-state">Loading GitHub stats...</div>
+        <div v-else-if="statsError" class="error-state">
+          {{ statsError }}
         </div>
+        <template v-else>
+          <div
+            class="card-stat"
+            v-for="(stat, idx) in ['repos', 'followers', 'following', 'latest_push']"
+            :key="stat"
+            ref="statRefs"
+            @mousemove="(e) => handleTilt(e, idx + 4)"
+            @mouseleave="() => resetTilt(idx + 4)"
+            :style="cardStyles[idx + 4]"
+          >
+            <h3>
+              {{
+                stat === 'latest_push'
+                  ? 'Latest Push'
+                  : stat.charAt(0).toUpperCase() + stat.slice(1)
+              }}
+            </h3>
+            <p class="stat-number">
+              {{
+                stat === 'repos'
+                  ? animatedStats.public_repos
+                  : stat === 'followers'
+                    ? animatedStats.followers
+                    : stat === 'following'
+                      ? animatedStats.following
+                      : animatedStats.latest_push
+              }}
+            </p>
+          </div>
+        </template>
       </div>
     </div>
   </main>
@@ -73,6 +81,8 @@ const animatedStats = reactive({
   latest_push: '',
 })
 
+const isLoading = ref(true)
+const statsError = ref<string | null>(null)
 const statsContainer = ref<HTMLElement | null>(null)
 let observer: IntersectionObserver | null = null
 
@@ -169,15 +179,22 @@ function resetTilt(idx: number) {
   }
 }
 
-async function fetchGitHubStats() {
+async function fetchGitHubStats(retryCount = 0) {
   try {
+    isLoading.value = true
+    statsError.value = null
+
     const response = await fetch('https://api.github.com/users/rvspijker', {
       headers: {
         Authorization: `Bearer ${githubToken}`,
         Accept: 'application/vnd.github.v3+json',
       },
     })
-    if (!response.ok) throw new Error('Failed to fetch GitHub stats')
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch GitHub stats: ${response.status}`)
+    }
+
     const data = await response.json()
     Object.assign(githubStats, {
       followers: data.followers,
@@ -192,7 +209,11 @@ async function fetchGitHubStats() {
         Accept: 'application/vnd.github.v3+json',
       },
     })
-    if (!reposResponse.ok) throw new Error('Failed to fetch repositories')
+
+    if (!reposResponse.ok) {
+      throw new Error(`Failed to fetch repositories: ${reposResponse.status}`)
+    }
+
     const repos = await reposResponse.json()
 
     // Find the most recent push across all repositories
@@ -219,8 +240,19 @@ async function fetchGitHubStats() {
     } else {
       githubStats.latest_push = 'No recent pushes'
     }
+
+    isLoading.value = false
   } catch (error) {
     console.error('Error fetching GitHub stats:', error)
+    statsError.value = 'Failed to load GitHub stats'
+
+    // Retry up to 3 times with exponential backoff
+    if (retryCount < 3) {
+      const delay = Math.pow(2, retryCount) * 1000 // 1s, 2s, 4s
+      setTimeout(() => fetchGitHubStats(retryCount + 1), delay)
+    } else {
+      isLoading.value = false
+    }
   }
 }
 
@@ -259,7 +291,7 @@ onMounted(() => {
   observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !isLoading.value) {
           startAnimation()
           observer?.disconnect()
         }
@@ -344,5 +376,18 @@ onUnmounted(() => {
 
 .card-stat:hover {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.loading-state,
+.error-state {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  margin: 1rem 0;
+}
+
+.error-state {
+  color: #ff4444;
 }
 </style>
