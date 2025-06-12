@@ -40,6 +40,25 @@ const navStyle = ref({
 
 onMounted(() => {
   const handleScroll = () => {
+    // Check if we're on mobile
+    const isMobile = window.innerWidth <= 768
+
+    if (isMobile) {
+      // On mobile, keep everything static
+      headerLogoStyle.value = {
+        opacity: 1,
+        transform: 'none',
+      }
+      navLogoStyle.value = {
+        opacity: 0,
+        transform: 'none',
+      }
+      navStyle.value = {
+        transform: 'none',
+      }
+      return
+    }
+
     const scrollPosition = window.scrollY
     const headerHeight = 350
     const transitionStart = 0
@@ -70,11 +89,30 @@ onMounted(() => {
   }
 
   window.addEventListener('scroll', handleScroll)
+  // Add resize listener to handle orientation changes
+  window.addEventListener('resize', handleScroll)
   // Initial call to set initial state
   handleScroll()
 
   onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll)
+    window.removeEventListener('resize', handleScroll)
   })
 })
 </script>
+
+<style scoped>
+@media (max-width: 768px) {
+  .nav-logo {
+    display: none;
+  }
+
+  .nav-links {
+    margin-left: 0 !important;
+  }
+
+  .navlink2 {
+    width: 60px !important;
+  }
+}
+</style>
