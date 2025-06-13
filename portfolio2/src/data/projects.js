@@ -1,14 +1,14 @@
 export const projects = [
-  {
-    id: 1,
-    project_name: 'irritante pagina',
-    project_img: 'irritantepagina.png',
-    preview_type: 'image',
-    project_link: 'https://rvspijker.nl/irritantepagina/',
-    github_link: 'https://github.com/RvSpijker/Irritante-pagina/',
-    project_desc:
-      'Dit project bestaat uit drie belangrijke aspecten. Dit project draait namelijk om het zo goed mogelijk nabouwen van een bestaande OnePager en van deze nagebouwde heb OnePager ik een echt irritante OnePage-site gemaakt. Dit heb ik gedaan in een duo.',
-  },
+  // {
+  //   id: 1,
+  //   project_name: 'irritante pagina',
+  //   project_img: 'irritantepagina.png',
+  //   preview_type: 'image',
+  //   project_link: 'https://rvspijker.nl/irritantepagina/',
+  //   github_link: 'https://github.com/RvSpijker/Irritante-pagina/',
+  //   project_desc:
+  //     'Dit project bestaat uit drie belangrijke aspecten. Dit project draait namelijk om het zo goed mogelijk nabouwen van een bestaande OnePager en van deze nagebouwde heb OnePager ik een echt irritante OnePage-site gemaakt. Dit heb ik gedaan in een duo.',
+  // },
   {
     id: 2,
     project_name: 'Steen Papier Schaar',
